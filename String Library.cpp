@@ -1,54 +1,129 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
 #include "clsString.h"
+
 using namespace std;
-
-
-
-
 
 int main()
 {
-	clsString S1 ("My Name is Yousif");
-	cout << S1.Value << endl;
-	S1.PrintFirstLetterOfEachWors();
+    // ==========================================================
+    // 1) ÇÎÊÈÇÑ ÇáÈäÇÁ æÇáÞÑÇÁÉ æÇáØÈÇÚÉ ÇáÃÓÇÓíÉ
+    // ==========================================================
+    clsString S1("yousif mohammed ali");
+    cout << "Initial Value: " << S1.Value << "\n\n";
 
-	S1.Value = S1.UpperFirstLeeterOfEachWord();
-	cout << S1.Value << endl;
-	cout << "String After lower case first letter of each word \n";
-	S1.Value = S1.LowerFirstLetterOfEachWord();
-	cout << S1.Value << endl;
-	//useing upper without object (static)	
-	cout << clsString::UpperFirstLeeterOfEachWord("i am a software engineering") << endl;
-	cout << "Letters after lower: \n";
-	cout << S1.LowerAllLetterOfString() << endl;
-	cout << "Letters after lower using static function: \n";
-	cout << clsString::LowerAllLetterOfString("This is my library ") << endl;
-	cout << "----------------------------------------------------------\n";
-	cout << "String after Invert letters  case:\n";
-	cout << S1.InverAllLettersCase() << endl;
-	S1.Value = "My Name Is Yousif";
-	cout << "----------------------------------------------------------\n";
-	cout << "The number of capitial letters in [ "<<S1.Value <<" ] are: " << endl;
-	cout << S1.CountSmallCapitalLetters(clsString::Capital) << endl; 	//enWhatToCount::Capital
+    cout << "--- First Letter of Each Word ---\n";
+    S1.PrintFirstLetterOfEachWors();
 
-	cout << "----------------------------------------------------------\n";
-	cout << "The Numbe of letter M  is: \n";
-	cout << S1.CountLetters('M') << endl;
+    // ==========================================================
+    // 2) ÊÛííÑ ÍÇáÉ ÇáÃÍÑÝ (Object vs Static)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    cout << "--- Capitalize First Letters ---\n";
+    S1.UpperFirstLeeterOfEachWord(); // ÊÚÏá _Value ãÈÇÔÑÉ
+    cout << "After UpperFirstLetter (Object): " << S1.Value << endl;
+    cout << "Static Call: " << clsString::UpperFirstLeeterOfEachWord("software engineering course") << endl;
 
-	cout << "----------------------------------------------------------\n";
-	cout << "The number of letter m or M in " << " my Name is Mohammed " << endl;
-	cout << clsString::CountLetterNoMatchCase("my Name is Mohammed", 'm', false) << endl;
+    cout << "\n--- Lowercase First Letters ---\n";
+    S1.LowerFirstLetterOfEachWord();
+    cout << "After LowerFirstLetter (Object): " << S1.Value << endl;
 
-	cout << "----------------------------------------------------------\n";
-	cout << "The number of vowels letters in [ " << S1.Value << " ]  are: \n";
-	cout << S1.CountVowels() << endl;
-						
+    cout << "\n--- Lower All Letters ---\n";
+    S1.Value = "WELCOME TO C++ PROGRAMMING";
+    S1.LowerAllLetterOfString();
+    cout << "After LowerAll (Object): " << S1.Value << endl;
+    cout << "Static Call: " << clsString::LowerAllLetterOfString("ABC DEF GHI") << endl;
 
+    cout << "\n--- Invert Case ---\n";
+    S1.Value = "AbCdEf";
+    S1.InverAllLettersCase();
+    cout << "After Invert Case: " << S1.Value << endl;
+    cout << "Static Invert: " << clsString::InverAllLettersCase("Hello World!") << endl;
 
+    // ==========================================================
+    // 3) ÇáÚÏ æÇáÅÍÕÇÁ (Counting Letters & Vowels)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    S1.Value = "Jordan Amman 2026!";
 
+    cout << "Capital Letters: " << S1.CountSmallCapitalLetters(clsString::enWhatToCount::Capital) << endl;
+    cout << "Small Letters:   " << S1.CountSmallCapitalLetters(clsString::enWhatToCount::Small) << endl;
+    cout << "All Characters:  " << S1.CountSmallCapitalLetters(clsString::enWhatToCount::All) << endl;
 
+    cout << "\nTarget Char 'a' (Case-Sensitive): " << S1.CountLetters('a') << endl;
+    cout << "Target Char 'a' (Case-Insensitive): " << S1.CountLetterNoMatchCase('a', false) << endl;
 
-	cout << endl;
-	system("pause");
-	return 0;
+    cout << "\nVowels Count: " << S1.CountVowels() << endl;
+    cout << "List of Vowels: ";
+    S1.PrintAllVowelsLetter();
+    cout << endl;
+
+    // ==========================================================
+    // 4) ÇáÊÚÇãá ãÚ ÇáßáãÇÊ (Words Operations)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    S1.Value = "Data Structures and Algorithms in C++";
+    cout << "Target Text: " << S1.Value << "\n";
+    cout << "Words Count: " << S1.CountEachWordOfString() << "\n\n";
+
+    cout << "Printing each word:\n";
+    S1.PrintEachWordOfString();
+
+    // ==========================================================
+    // 5) ÇáÊÞØíÚ æÇáÏãÌ (Split & Join)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    S1.Value = "Apple,Banana,Orange,Mango";
+    cout << "Splitting CSV: " << S1.Value << endl;
+
+    vector<string> vFruits = S1.SplitString(",");
+    for (const string& fruit : vFruits)
+    {
+        cout << "Item: " << fruit << endl;
+    }
+
+    cout << "\nJoining Vector back with ' - ': " << clsString::JoinString(vFruits, " - ") << endl;
+
+    string arrWords[] = { "C++", "C#", "Python", "Java" };
+    cout << "Joining Array with ' | ': " << clsString::JoinString(arrWords, 4, " | ") << endl;
+
+    // ==========================================================
+    // 6) ÇáãÓÇÝÇÊ æÇáÊäÙíÝ (Trim Operations)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    clsString S2("    Trim Test String    ");
+    cout << "Original with spaces: [" << S2.Value << "]\n";
+
+    S2.TrimLeft();
+    cout << "After TrimLeft:       [" << S2.Value << "]\n";
+
+    S2.Value = "    Trim Test String    ";
+    S2.TrimRight();
+    cout << "After TrimRight:      [" << S2.Value << "]\n";
+
+    S2.Value = "    Trim Test String    ";
+    S2.Trim();
+    cout << "After Trim (Both):    [" << S2.Value << "]\n";
+
+    // ==========================================================
+    // 7) ÇáÇÓÊÈÏÇá æÚßÓ ÇáÌãá æÚáÇãÇÊ ÇáÊÑÞíã (Replace & Punctuation)
+    // ==========================================================
+    cout << "\n----------------------------------------------------------\n";
+    S1.Value = "I love Jordan, Jordan is great!";
+    cout << "Before Replace: " << S1.Value << endl;
+    S1.ReplaceWords("Jordan", "Yemen", true);
+    cout << "After Replace:  " << S1.Value << endl;
+
+    S1.Value = "First Second Third Fourth";
+    S1.ReversWordsInString();
+    cout << "\nReversed Words: " << S1.Value << endl;
+
+    S1.Value = "Hello, World! It's 2026; let's code: C++.";
+    cout << "\nWith Punctuations:    " << S1.Value << endl;
+    S1.RemovePunctuations();
+    cout << "Without Punctuations: " << S1.Value << endl;
+
+    cout << "\n----------------------------------------------------------\n";
+    system("pause");
+    return 0;
 }
